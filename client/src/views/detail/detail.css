@@ -1,0 +1,6 @@
+/* Estilos para la imagen dentro de la tarjeta */
+.detail-image {
+    width: 100%; /* La imagen ocupa todo el ancho de la tarjeta */
+    height: 330px; /* Altura fija para la imagen */
+    object-fit: contain; /* Mantener las proporciones originales de la imagen */
+  }

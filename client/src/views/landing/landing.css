@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* overflow: hidden; */
+}
+
+.landing-container {
+    min-height: 100vh; /* Esto asegura que tome al menos el alto completo de la pantalla */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: url(https://perrosycachorros.net/wp-content/uploads/2021/06/caniche-1-696x398.jpg) no-repeat center center/cover;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 4em;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+button {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffffff;
+    color: #444444;
+    transition: background-color 0.35 ease;
+}
+
+button:hover {
+    background-color: #eeeeee;
+}

@@ -1,0 +1,44 @@
+.card-container {
+    width: 300px; /* Ancho fijo para cada tarjeta */
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    background-color: #95dada;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    -moz-osx-font-smooting: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(a);
+    transition: transform 0.25s ease-out;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-container:hover {
+    transform: scale(1.05);
+}
+
+p {
+    line-height: 0.5;
+    margin-bottom: 5px;
+}
+
+h2 {
+    line-height: 0.5;
+    margin-bottom: 10px;
+}
+
+/* Estilos para la imagen dentro de la tarjeta */
+.card-image {
+  width: 100%; /* La imagen ocupa todo el ancho de la tarjeta */
+  height: 130px; /* Altura fija para la imagen */
+  object-fit: contain; /* Mantener las proporciones originales de la imagen */
+}
+
+/* Estilos para el contenido de la tarjeta */
+.card-content {
+  padding: 5px;
+  text-align: center;
+}
