@@ -1,9 +1,9 @@
 .dog-form {
     background-color: #f8f8f8;
     border-radius: 8px;
-    padding: 20px;
+    padding: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    width: 500px; /* Ajustado para dar espacio a las etiquetas */
+    width: 600px; /* Ajustado para dar espacio a las etiquetas */
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -21,7 +21,7 @@
 }
 
 .input-group label {
-    width: 100px; /* Asegura que todas las etiquetas tengan el mismo ancho */
+    width: 150px; /* Asegura que todas las etiquetas tengan el mismo ancho */
     margin-right: 10px; /* Espacio entre la etiqueta y el input */
     font-weight: bold;
     color: #666;

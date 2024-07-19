@@ -53,9 +53,7 @@ const getDogById = async (id, source) => {
         });
       
     if (source === "api") {
-        console.log('dog: ', dog);
         const dogWithImage = (await axios.get(`https://api.thedogapi.com/v1/images/${dog.reference_image_id}?api_key=${API_KEY}`)).data;
-        console.log(dogWithImage);
         return {
             id: dog.id,
             name: dog.name,
@@ -73,9 +71,7 @@ const getDogById = async (id, source) => {
 }
 
 const getDogByName = async (name) => {
-    console.log('controller: ', name);
     const infoApi = (await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}&api_key=${API_KEY}`)).data;
-    console.log('infoApi: ', infoApi);
     const dogApi = infoCleaner(infoApi);
     
     const infoDB = await Dog.findAll(
@@ -89,23 +85,20 @@ const getDogByName = async (name) => {
     return { "dogBD": dogsDB, "dogAPI": dogApi }
 };
 
-const createDogDB = async (name, image, height, weight, age, origin, temperamentId1, temperamentId2) => {
-    const post = await Dog.create({name, image, height, weight, age, origin});
-    
-    if (temperamentId1) {
-        const temperament1 = await Temperament.findByPk(temperamentId1);
-        const dog1 = await Dog.findByPk(post.id);
-        await temperament1.addDog(dog1);
+const createDogDB = async (name, image, height, weight, age, origin, temperamentNames) => {
+    const post = await Dog.create({ name, image, height, weight, age, origin });
+
+    if (temperamentNames && temperamentNames.length > 0) {
+        const temperaments = await Temperament.findAll({
+            where: {
+                name: temperamentNames
+            }
+        });
+        await post.addTemperaments(temperaments);
     }
-    
-    if (temperamentId2) {
-        const temperament2 = await Temperament.findByPk(temperamentId2);
-        const dog2 = await Dog.findByPk(post.id);
-        await temperament2.addDog(dog2);
-    }
-    
-    console.log('Raza de perro creada y tipos asociados con éxito');
-    return post
+
+    console.log('Raza de perro creada y temperamentos asociados con éxito');
+    return post;
 };
 
 module.exports = { getAllDogs, getDogById, getDogByName, createDogDB }

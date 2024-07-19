@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createDog } from '../../redux/actions';
+import { temperaments } from '../../utils/temperaments';
 import './form.css';
 
 function Form() {
@@ -13,8 +14,7 @@ function Form() {
     height: "",
     weight: "",
     age: "",
-    temperamentId1: "",
-    temperamentId2: ""
+    temperamentNames: []
   });
 
   const [ errors, setErrors ] = useState({
@@ -23,8 +23,7 @@ function Form() {
     height: "",
     weight: "",
     age: "",
-    temperamentId1: "",
-    temperamentId2: ""
+    temperamentNames: []
   })
 
   const validate = (input) => {
@@ -53,48 +52,58 @@ function Form() {
   }
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setInput({
-        ...input,
-        [name]: value
-    });
-    setErrors(validate({
-        ...input,
-        [name]: value
-    }));
+    const { name, value, type, selectedOptions } = event.target;
+
+    if (type === "select-multiple") {
+        const values = Array.from(selectedOptions).map(option => option.value);
+        setInput(prevInput => ({
+          ...prevInput,
+          [name]: [...new Set([...prevInput[name], ...values])]
+        }));
+    } else {
+        setInput(prevInput => ({
+          ...prevInput,
+          [name]: value
+        }));
+        setErrors(validate({
+          ...input,
+          [name]: value
+        }));
+    }
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    // console.log('input: ', input);
-    dispatch(createDog(JSON.stringify(input)));  // Convierte un objeto JavaScript en un objeto JSON
+    dispatch(createDog(input));
+    alert('Raza creada exitosamente')
     navigate('/home')
   }
 
   return (
     <div className="form">
-      <form id="dogForm" className="dog-form" onSubmit={handleSubmit}>
+      <form className="dog-form" onSubmit={handleSubmit}>
         <h2>Crear una raza</h2>
         <div className="input-group">
-          <label>Nombre:</label>
+          <label htmlFor="name">Nombre:</label>
           <input 
             id="name" 
             name="name" 
             type="text" 
-            value={input.value} 
+            value={input.name} 
             placeholder='Ingrese el nombre de la raza...'
-            onChange={handleChange} 
+            onChange={handleChange}
+            autoComplete="off"  // Agregar atributo autocomplete
           />
           <p style={{color:"coral"}}>{errors.name}</p>
         </div>
 
         <div className="input-group">
-          <label>Imagen:</label>
+          <label htmlFor="image">Imagen:</label>
           <input 
             id='image' 
             name='image' 
             type='text' 
-            value={input.value} 
+            value={input.image} 
             placeholder='Ingrese la URL de la imagen...'
             onChange={handleChange} 
           />
@@ -102,12 +111,12 @@ function Form() {
         </div>
         
         <div className="input-group">
-          <label>Altura:</label>
+          <label htmlFor="height">Altura:</label>
           <input 
             id='height' 
             name='height' 
             type='text' 
-            value={input.value} 
+            value={input.height} 
             placeholder='Ingrese el rango de alturas...'
             onChange={handleChange} 
           />
@@ -115,12 +124,12 @@ function Form() {
         </div>
 
         <div className="input-group">
-          <label>Peso:</label>
+          <label htmlFor="weight">Peso:</label>
           <input 
             id='weight' 
             name='weight' 
             type='text' 
-            value={input.value} 
+            value={input.weight} 
             placeholder='Ingrese el rango de pesos...'
             onChange={handleChange} 
           />
@@ -128,71 +137,26 @@ function Form() {
         </div>
 
         <div className="input-group">
-          <label>Años de Vida:</label>
+          <label htmlFor="age">Años de Vida:</label>
           <input 
             id='age' 
             name='age' 
             type='text' 
-            value={input.value} 
+            value={input.age} 
             placeholder='Ingrese el rango de años de vida...'
             onChange={handleChange} 
           />
           <p style={{color:"coral"}}>{errors.age}</p>
         </div>      
-       
+
         <div className="input-group">
-          <label>Temperamento 1:</label>
-          <select name='temperamentId1' value={input.temperamentId1} onChange={handleChange}>
-            <option value='' >Ingrese un temperamento...</option>
-            <option value='1'>Stubborn</option>
-            <option value='2'>Curious</option>
-            <option value='3'>Playful</option>
-            <option value='4'>Adventurous</option>
-            <option value='5'>Active</option>
-            <option value='6'>Aloof</option>
-            <option value='7'>Clownish</option>
-            <option value='8'>Dignified</option>
-            <option value='9'>Fun-loving</option>
-            <option value='10'>Independent</option>
-            <option value='11'>Happy</option>
-            <option value='12'>Wild</option>
-            <option value='13'>Hardworking</option>
-            <option value='14'>Dutiful</option>
-            <option value='15'>Outgoing</option>
-            <option value='16'>Friendly</option>
-            <option value='17'>Alert</option>
-            <option value='18'>Confident</option>
-            <option value='19'>Intelligent</option>
-            <option value='20'>Courageous</option>
+          <label htmlFor="temperamentNames">Temperamentos:</label>
+          <select name="temperamentNames" id="temperamentNames" multiple value={input.temperamentNames} onChange={handleChange}>
+          {temperaments && temperaments.map((temperament, index) => (
+              <option key={index} value={temperament}>{temperament}</option>
+            ))}
           </select>
-        </div>      
-         
-        <div className="input-group">
-          <label>Temperamento 2:</label>
-          <select name='temperamentId2' value={input.temperamentId2} onChange={handleChange}>
-          <option value='' >Ingrese un temperamento...</option>
-            <option value='1'>Stubborn</option>
-            <option value='2'>Curious</option>
-            <option value='3'>Playful</option>
-            <option value='4'>Adventurous</option>
-            <option value='5'>Active</option>
-            <option value='6'>Aloof</option>
-            <option value='7'>Clownish</option>
-            <option value='8'>Dignified</option>
-            <option value='9'>Fun-loving</option>
-            <option value='10'>Independent</option>
-            <option value='11'>Happy</option>
-            <option value='12'>Wild</option>
-            <option value='13'>Hardworking</option>
-            <option value='14'>Dutiful</option>
-            <option value='15'>Outgoing</option>
-            <option value='16'>Friendly</option>
-            <option value='17'>Alert</option>
-            <option value='18'>Confident</option>
-            <option value='19'>Intelligent</option>
-            <option value='20'>Courageous</option>
-          </select>
-        </div>      
+        </div>
         
         <button type='submit' disabled={Object.keys(errors).length > 0}>Crear raza</button> 
       </form>

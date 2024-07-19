@@ -18,13 +18,25 @@ function rootReducer(state = initialState, action) {
                 ...state, 
                 allDogs: state.allDogsCopy
             }
-            const filteredDogs = state.allDogs.filter(
-                dog => dog.origin === action.payload
-            )
-            return {
-                ...state,
-                allDogs: filteredDogs
+            if (action.payload === "API" || action.payload === "BD") {
+                const filteredDogs = state.allDogs.filter(
+                    dog => dog.origin === action.payload
+                )
+                return {
+                    ...state,
+                    allDogs: filteredDogs
+                }
+            } else {
+                const filterByTemperament = (breeds, temperament) => {
+                    return breeds.filter(breed => breed.temperaments && breed.temperaments.includes(temperament));
+                };
+                const filteredDogs = filterByTemperament(state.allDogs, action.payload);
+                return {
+                    ...state, 
+                    allDogs: filteredDogs
+                };
             }
+        
         case ORDER:
             const orderCopy = [ ...state.allDogs ];
             

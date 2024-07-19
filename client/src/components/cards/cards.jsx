@@ -5,7 +5,6 @@ import "./cards.css";
 function Cards({ allDogs }) {
     let dogs = allDogs;
     if (!Array.isArray(dogs)) dogs = [dogs];
-    console.log('dogs: ', dogs)
     const [ currentPage, setCurrentPage ] = useState(1);
     const dogsPerPage = 8;
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 import Navbar from '../../components/navbar/navbar';
 import Cards from "../../components/cards/cards";
 import { getDogs, filterCards, orderCards } from '../../redux/actions';
+import { temperaments } from '../../utils/temperaments';
 import './home.css';
 
 function Home() {
@@ -24,7 +25,6 @@ function Home() {
   function getDogByName(name) {
     axios(`http://localhost:3001/dogs?name=${name}`).then(
       ({ data }) => {
-        console.log(data.dogAPI);
         if (data.dogAPI) {
           setSelectedDog(data.dogAPI);
         } else {
@@ -61,11 +61,15 @@ function Home() {
           <option value="All">All</option>
           <option value="API">Origen API</option>
           <option value="BD">Origen BD</option>
+          <option value="T" style={{color:"coral"}}>Temperamento: </option>
+          {temperaments.map((temperament, index) => (
+            <option key={index} value={temperament}>{temperament}</option>
+          ))}
         </select>
         <select name='order' onChange={handleOrder}>
           <option value="A">Ascendente</option>
           <option value="D">Descendente</option>
-          <option value="C">Peso</option>
+          <option value="C">Peso (Promedio)</option>
         </select>
       </div>
       { selectedDog ? (

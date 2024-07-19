@@ -13,7 +13,6 @@ function Detail(props) {
       ({ data }) => {
         if (data.name) {
           setDog(data);
-          console.log(data);
         } else {
           window.alert('¡No hay razas con este ID!');
         }

@@ -10,9 +10,6 @@ function Card({ name, image, temperaments, weight, id }) {
                 <img src={image} alt={name} className="card-image" />
                 <h4>{temperaments}</h4>
                 <h4>{weight}</h4>
-                {/* {temperaments?.map((temperament, index) => (
-                    <h4 key={index}>{temperaments}</h4>
-                 ))} */}
             </Link>
         </div>
     );

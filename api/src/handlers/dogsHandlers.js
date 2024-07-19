@@ -2,7 +2,6 @@ const { getAllDogs, getDogById, getDogByName, createDogDB } = require("../contro
 
 const getDogsHandler = async (req, res) => { 
     const { name } = req.query;
-    console.log('handler: ', name);
     try {
         if (name) {
             const dogByName = await getDogByName(name.toLowerCase());
@@ -19,7 +18,6 @@ const getDogsHandler = async (req, res) => {
 const getDetailHandler = async (req, res) => {
     const { id } = req.params;
     const source = isNaN(id) ? "bdd" : "api";
-    console.log(source);
     try {
         const response = await getDogById(id, source);
         res.status(200).json(response) 
@@ -29,10 +27,10 @@ const getDetailHandler = async (req, res) => {
 };
 
 const createDogHandler = async (req, res) => { 
-    const { name, image, height,  weight, age, origin, temperamentId1, temperamentId2 } = req.body;
-    console.log(name, image, height,  weight, age, origin, temperamentId1, temperamentId2)
+    const { name, image, height,  weight, age, origin, temperamentNames } = req.body;
+    console.log(name, image, height,  weight, age, origin, temperamentNames)
     try {
-        const newDog = await createDogDB(name.toLowerCase(), image, height,  weight, age, origin, temperamentId1, temperamentId2);
+        const newDog = await createDogDB(name.toLowerCase(), image, height,  weight, age, origin, temperamentNames);
         res.status(200).json(newDog);
     } catch (error) {
         res.status(400).json({ error: error.message })
