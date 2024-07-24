@@ -4,8 +4,7 @@ import { GET_DOGS, FILTER, ORDER, CREATE_DOG } from "./action-types";
 export function getDogs() {
     return async function(dispatch) {
 
-        const response = await axios(`https://dogs-api-production-2f5c.up.railway.app/dogs`);
-
+        const response = await axios("http://localhost:3001/dogs");
         return dispatch({
             type: GET_DOGS,
             payload: [...response.data.dogsAPI, ...response.data.dogsBD],
@@ -31,7 +30,7 @@ export function createDog(dog) {
     // console.log('dog: ', dog);
     return async function(dispatch) {
         try {
-            const response = await axios.post(`https://dogs-api-production-2f5c.up.railway.app/dogs`, dog, {
+            const response = await axios.post('http://localhost:3001/dogs', dog, {
                 headers: {
                     'Content-Type': 'application/json'
                 }  // Este último argumento asegura que Axios está configurado correctamente, especialmente si alguna configuración global de Axios o un middleware del backend podría estar interfiriendo
